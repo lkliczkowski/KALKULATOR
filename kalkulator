@@ -1,49 +1,41 @@
-#!/bin/sh
+#!/bin/bash -f
 
-INT_1=$1
-INT_2=$2
-OPERATOR=$3
+WARTOSC=`dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --inputbox "Wpisz dzialanie matematyczne oddzielone spacjami, np 2 + 2, sqrt 4" 8 60 `
+echo $WARTOSC
+WART1=$(echo $WARTOSC | cut -d ' ' -f 1)
+DZIALANIE=$(echo $WARTOSC | cut -d ' ' -f 2)
+WART2=$(echo $WARTOSC | cut -d ' ' -f 3)
 
-echo "Kalkulator."
-echo "Uzycie: $0 [int_1] [int_2] [operator]"
-echo "Gdzie int_1 oraz int_2 to liczby, po ktorych nastepuje"
-echo "operator dzialania arytmetycznego podany w cudzyslowie."
-echo "Operatory: \"+\", \"-\", \"*\", \"\\\", \"sqrt\""
-echo "\nDane:"
-echo "int_1 = $INT_1"
-echo "int_2 = $INT_2"
-echo "operator = $OPERATOR\n"
+echo $WART1
+echo $DZIALANIE
+echo $WART2
 
-case "$OPERATOR" in
-"+")
-	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1+$INT_2))"
-	;;
-"-")
-	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1-$INT_2))"
-	;;	
-"*")	
-	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1*$INT_2))"
-	;;
-"/")
-	if [ $INT_2 = 0 ]; then
-		echo "Nie dzielimy przez 0!"
-		return 1
-	fi
-	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1/$INT_2))"
-	;;
-"sqrt")
-	RESULT=$(echo "sqrt ( $INT_1 )" | bc -l)
-	echo "sqrt($INT_1) = $RESULT\n"
+if [ $WART1 = 'sqrt' ]
+then
+RESULT=$(echo "sqrt ( $DZIALANIE )" | bc -l)
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
+fi
 
-	RESULT=$(echo "sqrt ( $INT_2 )" | bc -l)
-	echo "sqrt($INT_2) = $RESULT"
-	;;
-*)
-	echo "Podales zly operator arytmetyczny: $OPERATOR"
-	;;
-	
-esac
+if [ $DZIALANIE = '+' ]
+then
+RESULT=$(($WART1+$WART2))
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
+fi
 
-return 0
+if [ $DZIALANIE = '-' ]
+then
+RESULT=$(($WART1-$WART2))
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
+fi
 
+if [ $DZIALANIE = '*' ]
+then
+RESULT=$(($WART1*$WART2))
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
+fi
 
+if [ $DZIALANIE = '/' ]
+then
+RESULT=$(($WART1/$WART2))
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
+fi

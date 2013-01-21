@@ -1,0 +1,4 @@
+KALKULATOR
+==========
+
+Skrypt zawierający kalkulator.

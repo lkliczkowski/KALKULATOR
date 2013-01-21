@@ -1,0 +1,49 @@
+#!/bin/sh
+
+INT_1=$1
+INT_2=$2
+OPERATOR=$3
+
+echo "Kalkulator."
+echo "Uzycie: $0 [int_1] [int_2] [operator]"
+echo "Gdzie int_1 oraz int_2 to liczby, po ktorych nastepuje"
+echo "operator dzialania arytmetycznego podany w cudzyslowie."
+echo "Operatory: \"+\", \"-\", \"*\", \"\\\", \"sqrt\""
+echo "\nDane:"
+echo "int_1 = $INT_1"
+echo "int_2 = $INT_2"
+echo "operator = $OPERATOR\n"
+
+case "$OPERATOR" in
+"+")
+	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1+$INT_2))"
+	;;
+"-")
+	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1-$INT_2))"
+	;;	
+"*")	
+	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1*$INT_2))"
+	;;
+"/")
+	if [ $INT_2 = 0 ]; then
+		echo "Nie dzielimy przez 0!"
+		return 1
+	fi
+	echo "$INT_1 $OPERATOR $INT_2 = $(($INT_1/$INT_2))"
+	;;
+"sqrt")
+	RESULT=$(echo "sqrt ( $INT_1 )" | bc -l)
+	echo "sqrt($INT_1) = $RESULT\n"
+
+	RESULT=$(echo "sqrt ( $INT_2 )" | bc -l)
+	echo "sqrt($INT_2) = $RESULT"
+	;;
+*)
+	echo "Podales zly operator arytmetyczny: $OPERATOR"
+	;;
+	
+esac
+
+return 0
+
+

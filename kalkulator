@@ -6,10 +6,7 @@ WART1=$(echo $WARTOSC | cut -d ' ' -f 1)
 DZIALANIE=$(echo $WARTOSC | cut -d ' ' -f 2)
 WART2=$(echo $WARTOSC | cut -d ' ' -f 3)
 
-echo $WART1
-echo $DZIALANIE
-echo $WART2
-
+	
 if [ $WART1 = 'sqrt' ]
 then
 RESULT=$(echo "sqrt ( $DZIALANIE )" | bc -l)
@@ -36,6 +33,11 @@ fi
 
 if [ $DZIALANIE = '/' ]
 then
+if [ $WART2 = 0 ]; then
+dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "Nie dzielimy przez 0!" 8 60
+		
+	fi
 RESULT=$(($WART1/$WART2))
 dialog --stdout --title "Kalkulator" --backtitle "Kalkulator" --msgbox "$RESULT" 8 60
 fi
+
